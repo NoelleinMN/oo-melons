@@ -14,27 +14,29 @@ class AbstractMelonOrder():
         """Calculate price, including tax."""
 
         base_price = 5
-        if self.species == "Christmas" and self.order_type == "international":
-            base_price = base_price * 1.5
-            if self.qty < 10:
-                flat_fee = 3
-                total = (1 + self.tax) * self.qty * base_price + flat_fee
-            else: 
-                total = (1 + self.tax) * self.qty * base_price
+        # if self.species == "Christmas" and self.order_type == "international":
+        #     base_price = base_price * 1.5
+        #     if self.qty < 10:
+        #         flat_fee = 3
+        #         total = (1 + self.tax) * self.qty * base_price + flat_fee
+        #     else: 
+        #         total = (1 + self.tax) * self.qty * base_price
         
-        elif self.species == "Christmas":
+        if self.species == "Christmas":
             base_price = base_price * 1.5
-            total = (1 + self.tax) * self.qty * base_price
+        
+        total = (1 + self.tax) * self.qty * base_price
 
-        elif self.order_type == "international":
-            if self.qty < 10:
-                flat_fee = 3
-                total = (1 + self.tax) * self.qty * base_price + flat_fee
-            else: 
-                total = (1 + self.tax) * self.qty * base_price
+        if self.order_type == "international" and self.qty < 10:
+            total = total + 3
+                
+        #         flat_fee = 3
+        #         total = (1 + self.tax) * self.qty * base_price + flat_fee
+        #     else: 
+        #         total = (1 + self.tax) * self.qty * base_price
 
-        else:
-            total = (1 + self.tax) * self.qty * base_price
+        # else:
+        #     total = (1 + self.tax) * self.qty * base_price
 
         return total
 
@@ -42,7 +44,6 @@ class AbstractMelonOrder():
         """Record the fact than an order has been shipped."""
 
         self.shipped = True
-
     
 
 
@@ -84,4 +85,5 @@ class InternationalMelonOrder(AbstractMelonOrder):
 order0 = DomesticMelonOrder("Watermelon", 12)
 order1 = InternationalMelonOrder("Honeydew", 5, "BRZ")
 order2 = DomesticMelonOrder("Christmas", 2)
-order3 = InternationalMelonOrder("Christmas", 4, "JPN")
+order3 = InternationalMelonOrder("Christmas", 2, "JPN")
+order4 = GovernmentMelonOrder("Casaba", 30)
